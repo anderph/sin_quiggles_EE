@@ -28,14 +28,20 @@ subplot1 = plt.subplot(111)
 
 
 coordinates = (0,0)
-angle = 1
+angle = 0
+modifier = 179
 counter = 1
 
-for i in range(720):
+time = 180*2
+
+# time = 2
+
+for i in range(time):
+    print('-'+str(angle % 360)+'-')
     coordinates = plot_line(coordinates,angle, 1)
     angle += counter
-    counter += 1
-
+    counter += modifier
+# coordinates = plot_line(coordinates,90, 1)
 
 # Show the plot
 plt.show()

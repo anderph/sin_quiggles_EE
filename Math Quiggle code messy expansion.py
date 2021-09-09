@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
-import numpy as np
+from scipy import integrate
+import numpy as n
 import math
 
 
@@ -32,7 +33,7 @@ def  plot_line(_coordinates, degrees, _length, subplotName=None):
 
 coordinates = (0,0)
 angle = 0
-counter = 0
+counter = 1
 
 def reset_variables():
     global coordinates
@@ -48,13 +49,13 @@ def standard_quiggle_draw(stepper):
     global angle
     global counter
     global step_size
-    for i in range(360*4):
+    for i in range(360*8):
         coordinates = plot_line(coordinates,angle, step_size)
         angle += counter
         counter += stepper
         # print(str(angle % 360), str(counter))
     reset_variables()
-
+# standard_quiggle_draw(2)
 def length_exploration_of_quiggles(stepper):
     global coordinates
     global angle
@@ -85,13 +86,13 @@ def exponential_quiggle_draw(stepper):
     global angle
     global counter
     global step_size
-    for i in range(360*8):
+    for i in range(360*12):
         coordinates = plot_line(coordinates,angle, step_size)
-        angle = (counter ** 1.25)
+        angle += (counter ** 2)
         print(str(angle%360))
         counter += stepper
     reset_variables()
-
+# exponential_quiggle_draw(1)
 def fibonacci_mod_draw(stepper):
     global coordinates
     global angle
@@ -100,7 +101,7 @@ def fibonacci_mod_draw(stepper):
     new_fibo = 1
     old_fibo = 0
     temp_fibo = 0
-    for i in range(70):
+    for i in range(200):
         coordinates = plot_line(coordinates,angle, step_size)
         angle = new_fibo
         temp_fibo = new_fibo % 360
@@ -108,44 +109,44 @@ def fibonacci_mod_draw(stepper):
         old_fibo = temp_fibo % 360
 
     reset_variables()
-
+# fibonacci_mod_draw(1)
 def geometric_series_quiggle(r_value):
     global coordinates
     global angle
     global counter
     global step_size
     term = r_value
-    for i in range(360):
-        coordinates = plot_line(coordinates,angle, step_size)
+    for i in range(360*2):
+        coordinates = plot_line(coordinates,angle % 360, step_size)
         angle = term
         term = term * r_value
         # print(str(angle % 360), str(counter))
     reset_variables()
-
-def weird_square_root_archimedian_spiral(stepper):
+# geometric_series_quiggle(8)
+def weird_square_root_archimedian_spiral(stepper, length):
     global coordinates
     global angle
     global counter
     global step_size
-    for i in range(360*8):
+    for i in range(length):
         coordinates = plot_line(coordinates,angle, step_size)
         angle = counter ** (1/2)
         counter += stepper
         # print(str(angle % 360), str(counter))
     reset_variables()
-
+# weird_square_root_archimedian_spiral(1000, 360)
 def sin_wave_exploration(stepper):
     global coordinates
     global angle
     global counter
     global step_size
-    for i in range(360*12):
+    for i in range(360*16):
         coordinates = plot_line(coordinates,angle, step_size)
-        angle += math.sin(counter/360)
+        angle += math.sin(math.radians(counter/360))
         counter += stepper
         # print(str(angle % 360), str(counter))
     reset_variables()
-
+# sin_wave_exploration(24.1) #this gets us very close to a weird, but finite figure 8.
 def random(stepper):
     global coordinates
     global angle
@@ -181,7 +182,7 @@ def mushroom(stepper):
         counter += stepper
         print(str(angle % 360), str(counter))
     reset_variables()
-
+# mushroom(2)
 def mushroom_not_really(stepper):
     global coordinates
     global angle
@@ -193,7 +194,7 @@ def mushroom_not_really(stepper):
         counter += stepper
         print(str(angle % 360), str(counter))
     reset_variables()
-
+# mushroom_not_really(1)
 def special_case_of_sin_wave_exploration_but_with_different_sequence(stepper):
     global coordinates
     global angle
@@ -210,7 +211,7 @@ def special_case_of_sin_wave_exploration_but_with_different_sequence(stepper):
         counter += stepper
         print(str(angle % 360), str(counter))
     reset_variables()
-
+# special_case_of_sin_wave_exploration_but_with_different_sequence(1)
 def circle_creator_but_non_trivial_maybe(stepper, iterations):
     global coordinates
     global angle
@@ -234,7 +235,7 @@ def sin_wave_exploration_extended(stepper, division):
         counter += stepper
         # print(str(angle % 360), str(counter))
     reset_variables()
-
+# sin_wave_exploration_extended(1,10)
 def sin_wave_exploration_extended_critical_point(stepper):
     global coordinates
     global angle
@@ -246,7 +247,7 @@ def sin_wave_exploration_extended_critical_point(stepper):
         counter += stepper
         # print(str(angle % 360), str(counter))
     reset_variables()
-
+# sin_wave_exploration_extended_critical_point(1) #this creates almost a straight line
 def sin_wave_exploration_well_behaved_attempt_360(stepper):
     global coordinates
     global angle
@@ -316,10 +317,12 @@ def sin_wave_exploration_well_behaved_attempt_90(stepper, length):
     global step_size
     for i in range(length):
         coordinates = plot_line(coordinates,angle, step_size)
-        angle += 90*math.sin(counter*math.pi) ** 2
+        angle += 2*90*math.sin(counter*math.pi) ** 2
         counter += stepper
         # print(str(angle % 360), str(counter))
     reset_variables()
+# sin_wave_exploration_well_behaved_attempt_90(1/7,180)
+# sin_wave_exploration_well_behaved_attempt_90(1/(1+1), (1+1)*5)
 
 def sin_wave_exploration_well_behaved_attempt_variable_angular_multiplier(stepper, length, angular_multiplier):
     global coordinates
@@ -415,9 +418,27 @@ def sin_wave_exploration_well_behaved_attempt_multiple_files_and_variable_angula
         plt.clf()
         reset_variables()
 
-sin_wave_exploration_well_behaved_attempt_90(1/258, 600)
+def sin_wave_exploration_integration_360(stepper, length):
+    global coordinates
+    global angle
+    global counter
+    global step_size
+    counter = 0
+    for i in range(length):
+        coordinates = plot_line(coordinates,angle, step_size)
+        sinusoid = lambda x: n.sin(x*n.pi)
+        angle += 360*integrate.quad(sinusoid, counter*n.pi, (counter+stepper)*n.pi)[0] % 360
+        print(integrate.quad(sinusoid, counter*n.pi, (counter+stepper)*n.pi)[0])
+        counter += stepper
+        # plot_line(coordinates, -angle, step_size)
+        print(str(angle % 360), str(counter))
+    reset_variables()
+# sin_wave_exploration_integration_360(1/7,20)
 
-# sin_wave_exploration_well_behaved_attempt_variable_angular_multiplier(1/4/8, 300, 45)
+
+# sin_wave_exploration_well_behaved_attempt_90(1/258, 600)
+
+# sin_wave_exploration_well_behaved_attempt_90(1/8, 45)
 
 # sin_wave_exploration_well_behaved_attempt_variable_angular_multiplier_not_squared(1/9, 2000, 180)
 
@@ -443,7 +464,6 @@ sin_wave_exploration_well_behaved_attempt_90(1/258, 600)
 # plt.show()
 
 # sin_wave_exploration_well_behaved_attempt_90(1/(1+1), (1+1)*5)
-# plt.show()
 
 # sin_wave_exploration_well_behaved_attempt_180(1/366)
 
