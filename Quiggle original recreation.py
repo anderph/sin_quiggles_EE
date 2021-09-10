@@ -18,6 +18,7 @@ def  plot_line(coords, degrees, length):
 
      # plot the points
      subplot1.plot([x, endx], [y, endy])
+     # subplot1.plot([x, endx], [y, endy], 'bo') #specifies the color
      return (endx, endy)
 
 
@@ -29,15 +30,15 @@ subplot1 = plt.subplot(111)
 
 coordinates = (0,0)
 angle = 0
-modifier = 179
+modifier = 1
 counter = 1
 
-time = 180*2
+time = 360*2+2
 
 # time = 2
 
 for i in range(time):
-    print('-'+str(angle % 360)+'-')
+    print('-'+str(counter % 360)+'-')
     coordinates = plot_line(coordinates,angle, 1)
     angle += counter
     counter += modifier
