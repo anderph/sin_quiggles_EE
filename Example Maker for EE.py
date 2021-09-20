@@ -1,11 +1,7 @@
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
-import matplotlib as mpl
 import numpy as np
 import math
-
-
-mpl.rcParams['figure.dpi'] = 200
 
 
 #general variable settings
@@ -24,14 +20,15 @@ def  plot_line(coords, degrees, length):
      endx = x + length * math.cos(math.radians(degrees))
 
      # colors
-     color = int(( iterations/90+ 3) % 7)
-     # if counter >= 360*3:
-     #     color = 4
+     color = int(( iterations/90/2+ 3) % 7)
+     # color = 6
      subplot1.plot([x, endx], [y, endy], colorlist[color], linewidth=0.8)
     # no colors:
     #  subplot1.plot([x, endx], [y, endy], linewidth=0.4)
      # subplot1.plot([x, endx], [y, endy], 'bo') #specifies the color
      return (endx, endy)
+
+
 
 fig = plt.figure()
 subplot1 = plt.subplot(111)
@@ -45,23 +42,11 @@ subplot1 = plt.subplot(111)
 coordinates = (0,0)
 angle = 0
 iterations = 1
-modifier = 13
+modifier = 7
 counter = 1
 
-time = 720*2
+time = 180*180
 
-# time = 2
-#
-# x=0
-# y=0
-# for i in range(360):
-#     x += x + 1 * math.sin(math.radians(angle))
-#     x += + 1 * math.sin(math.radians(angle))
-#     angle += counter
-#     counter += modifier
-#     iterations += 1
-#     coordinates = (x,y)
-#
 
 for i in range(time):
     print('-'+str(counter % 360)+'-')
@@ -71,10 +56,11 @@ for i in range(time):
     iterations += 1
 
 
-title = "Pseudo Mono H-Quiggle first middle"
-plt.title(title, fontsize=20)
+
+
+plt.title("Fake Mono-Quiggle", fontsize=20)
 # coordinates = plot_line(coordinates,90, 1)
-# plt.savefig(title+'.svg')
+# plt.savefig('pseudo mono H-Quiggle first 720.png', dpi = 600)
 
 
 
