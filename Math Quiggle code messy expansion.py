@@ -28,7 +28,15 @@ def  plot_line(_coordinates, degrees, _length, subplotName=None):
     subplotName.plot([x, endx], [y, endy])
     return (endx, endy)
 
+def  plot_line_color(_coordinates_first,_coordinates_second, color, _linewidth, subplotName=None):
+    if subplotName == None:
+        subplotName = subplot1
+     # unpack the first point
+    x, y = _coordinates_first
+    x2, y2 = _coordinates_second
 
+     # plot the points
+    subplotName.plot([x, x2], [y, y2], color, linewidth=_linewidth)
 
 
 coordinates = (0,0)
@@ -435,7 +443,173 @@ def sin_wave_exploration_integration_360(stepper, length):
     reset_variables()
 # sin_wave_exploration_integration_360(1/7,20)
 
+def cycloid_exploration_well_behaved_attempt_90(stepper, length):
+    global coordinates
+    global angle
+    global counter
+    global step_size
+    for i in range(length):
+        coordinates = plot_line(coordinates,angle, step_size)
+        angle += 90*(1 - math.cos(counter*math.pi))
+        counter += stepper
+        # print(str(angle % 360), str(counter))
+    reset_variables()
 
+def standard_quiggle_draw_overlap(stepper, linewidth):
+    global coordinates
+    global angle
+    global counter
+    global step_size
+    listOfSteps = []
+    listOfSortedSteps = []
+    colorlist = []
+    oldCoordinates = (0,0)
+    feature = 0
+    for i in range(360*2):
+        if angle % 360 ==  1:
+            feature += 1
+        oldCoordinates = coordinates
+        coordinates = (coordinates[0] + math.cos(math.radians(angle)), coordinates[1] + math.sin(math.radians(angle)))
+        angle += counter
+        counter += stepper
+        current_move = [(round(oldCoordinates[0],5), round(oldCoordinates[1],5)), (round(coordinates[0],5),round(coordinates[1],5))]
+        if feature <= 8:
+            if sorted(current_move) in listOfSortedSteps:
+                if current_move not in listOfSteps:
+                    colorlist.append(current_move)
+            else:
+                listOfSteps.append(current_move)
+            listOfSortedSteps.append(sorted(current_move))
+            # print(str(angle % 360), str(counter))
+    for i in range(len(listOfSteps)):
+        plot_line_color(listOfSteps[i][0], listOfSteps[i][1], 'black', linewidth)
+    for i in range(len(colorlist)):
+        plot_line_color(colorlist[i][0], colorlist[i][1], 'blue', linewidth)
+    reset_variables()
+    print(listOfSteps)
+    print('-------------------------')
+    print(listOfSortedSteps)
+    print('-------------------------')
+    print(colorlist)
+    print('-------------------------')
+# standard_quiggle_draw_overlap(7, 0.2)
+# title = "hello"
+# plt.title(title, fontsize=20)
+# # coordinates = plot_line(coordinates,90, 1)
+# plt.savefig(title+'.svg')
+
+def standard_quiggle_draw_overlap_progression(stepper, loops, linewidth):
+    global coordinates
+    global angle
+    global counter
+    global step_size
+    listOfSteps = []
+    listOfSortedSteps = []
+    colorlist = []
+    newlistOfSteps = []
+    newcolorlist = []
+    oldCoordinates = (0,0)
+    feature = 0
+    height = 1
+    width = loops
+    figure, axis = plt.subplots(height, width)
+    plt.tight_layout()
+    for w in range(width):
+        axis[w].axes.get_xaxis().set_ticks([])
+        axis[w].axes.get_yaxis().set_ticks([])
+        axis[w].set_aspect('equal', adjustable='box')
+        axis[w].set_title("Graph Feature " + str(w + 1))
+    for iteration in range(loops):
+        width = iteration
+        height = 0
+        while feature <= (iteration + 1):
+            if counter % 360 == 1:
+                feature += 1
+            oldCoordinates = coordinates
+            coordinates = (coordinates[0] + math.cos(math.radians(angle)), coordinates[1] + math.sin(math.radians(angle)))
+            angle += counter
+            counter += stepper
+            current_move = [(round(oldCoordinates[0],5), round(oldCoordinates[1],5)), (round(coordinates[0],5),round(coordinates[1],5))]
+            if sorted(current_move) in listOfSortedSteps:
+                if current_move not in listOfSteps:
+                    colorlist.append(current_move)
+                    newcolorlist.append(current_move)
+            else:
+                listOfSteps.append(current_move)
+                newlistOfSteps.append(current_move)
+            listOfSortedSteps.append(sorted(current_move))
+            # print(str(angle % 360), str(counter))
+        for i in range(len(listOfSteps)):
+            plot_line_color(listOfSteps[i][0], listOfSteps[i][1], 'black', linewidth, subplotName=axis[width])
+        for i in range(len(colorlist)):
+            plot_line_color(colorlist[i][0], colorlist[i][1], 'blue', linewidth, subplotName=axis[width])
+        for i in range(len(newlistOfSteps)):
+            plot_line_color(newlistOfSteps[i][0], newlistOfSteps[i][1], 'lime', linewidth, subplotName=axis[width])
+        for i in range(len(newcolorlist)):
+            plot_line_color(newcolorlist[i][0], newcolorlist[i][1], 'red', linewidth, subplotName=axis[width])
+        newlistOfSteps = []
+        newcolorlist = []
+    reset_variables()
+
+
+
+def standard_quiggle_draw_overlap_progression_grid(stepper, width, height, linewidth):
+    global coordinates
+    global angle
+    global counter
+    global step_size
+    listOfSteps = []
+    listOfSortedSteps = []
+    colorlist = []
+    newlistOfSteps = []
+    newcolorlist = []
+    oldCoordinates = (0,0)
+    feature = 0
+    figure, axis = plt.subplots(height, width)
+    plt.tight_layout()
+    for h in range(height):
+        for w in range(width):
+            axis[h, w].axes.get_xaxis().set_ticks([])
+            axis[h, w].axes.get_yaxis().set_ticks([])
+            axis[h, w].set_aspect('equal', adjustable='box')
+            axis[h, w].set_title("Graph Feature " + str(h*width + w + 1))
+    for h in range(height):
+        for w in range(width):
+            iteration = h*width +w
+            while feature <= (iteration + 1):
+                if counter % 360 == 1:
+                    feature += 1
+                oldCoordinates = coordinates
+                coordinates = (coordinates[0] + math.cos(math.radians(angle)), coordinates[1] + math.sin(math.radians(angle)))
+                angle += counter
+                counter += stepper
+                current_move = [(round(oldCoordinates[0],4), round(oldCoordinates[1],4)), (round(coordinates[0],4),round(coordinates[1],4))]
+                if sorted(current_move) in listOfSortedSteps:
+                    if current_move not in listOfSteps:
+                        colorlist.append(current_move)
+                        newcolorlist.append(current_move)
+                else:
+                    listOfSteps.append(current_move)
+                    newlistOfSteps.append(current_move)
+                listOfSortedSteps.append(sorted(current_move))
+                # print(str(angle % 360), str(counter))
+            for i in range(len(listOfSteps)):
+                plot_line_color(listOfSteps[i][0], listOfSteps[i][1], 'black', linewidth, subplotName=axis[h, w])
+            for i in range(len(colorlist)):
+                plot_line_color(colorlist[i][0], colorlist[i][1], 'blue', linewidth, subplotName=axis[h, w])
+            for i in range(len(newlistOfSteps)):
+                plot_line_color(newlistOfSteps[i][0], newlistOfSteps[i][1], 'lime', linewidth, subplotName=axis[h, w])
+            for i in range(len(newcolorlist)):
+                plot_line_color(newcolorlist[i][0], newcolorlist[i][1], 'red', linewidth, subplotName=axis[h, w])
+            newlistOfSteps = []
+            newcolorlist = []
+    reset_variables()
+
+# standard_quiggle_draw_overlap_progression(1, 4, 1)
+standard_quiggle_draw_overlap_progression_grid(103, 4,2, 1)
+
+
+# cycloid_exploration_well_behaved_attempt_90(1/12, 360)
 # sin_wave_exploration_well_behaved_attempt_90(1/258, 600)
 
 # sin_wave_exploration_well_behaved_attempt_90(1/8, 45)
