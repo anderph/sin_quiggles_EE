@@ -10,7 +10,7 @@ step_size = 1
 
 fig = plt.figure(1)
 subplot1 = plt.subplot(111)
-subplot1.axis('off')
+# subplot1.axis('off')
 subplot1.set_aspect('equal', adjustable='box')
 # subplot1.set_ylim([0, 10])   # set the bounds to be 10, 10
 # subplot1.set_xlim([0, 10])
@@ -27,6 +27,20 @@ def  plot_line(_coordinates, degrees, _length, subplotName=None):
      # plot the points
     subplotName.plot([x, endx], [y, endy])
     return (endx, endy)
+
+def  plot_line_width(_coordinates, degrees, _length, _linewidth, subplotName=None):
+    if subplotName == None:
+        subplotName = subplot1
+     # unpack the first point
+    x, y = _coordinates
+     # find the end point
+    endy = y + _length * math.sin(math.radians(degrees))
+    endx = x + _length * math.cos(math.radians(degrees))
+
+     # plot the points
+    subplotName.plot([x, endx], [y, endy], linewidth=_linewidth)
+    return (endx, endy)
+
 
 def  plot_line_color(_coordinates_first,_coordinates_second, color, _linewidth, subplotName=None):
     if subplotName == None:
@@ -63,7 +77,7 @@ def standard_quiggle_draw(stepper):
         counter += stepper
         # print(str(angle % 360), str(counter))
     reset_variables()
-# standard_quiggle_draw(2)
+# standard_quiggle_draw(1.5)
 def length_exploration_of_quiggles(stepper):
     global coordinates
     global angle
@@ -101,7 +115,7 @@ def exponential_quiggle_draw(stepper):
         counter += stepper
     reset_variables()
 # exponential_quiggle_draw(1)
-def fibonacci_mod_draw(stepper):
+def fibonacci_mod_draw(modder):
     global coordinates
     global angle
     global counter
@@ -109,15 +123,64 @@ def fibonacci_mod_draw(stepper):
     new_fibo = 1
     old_fibo = 0
     temp_fibo = 0
-    for i in range(200):
+    angle = 0
+    for i in range(120*2):
+        # if old_fibo % 360 == 0: print(i)
+        # print(old_fibo)
         coordinates = plot_line(coordinates,angle, step_size)
-        angle = new_fibo
-        temp_fibo = new_fibo % 360
-        new_fibo = (new_fibo + old_fibo) % 360
-        old_fibo = temp_fibo % 360
+        angle += new_fibo
+        temp_fibo = new_fibo % modder
+        new_fibo = (new_fibo + old_fibo) % modder
+        old_fibo = temp_fibo % modder
 
     reset_variables()
-# fibonacci_mod_draw(1)
+# fibonacci_mod_draw(360)
+def fibonacci_mod_draw_wierd(modder):
+    global coordinates
+    global angle
+    global counter
+    global step_size
+    new_fibo = 1
+    old_fibo = 0
+    temp_fibo = 0
+    angle = 0
+    for i in range(360*8):
+        # if old_fibo % 360 == 0: print(i)
+        # print(old_fibo)
+        coordinates = plot_line(coordinates,angle, step_size)
+        angle += 360/modder * new_fibo
+        temp_fibo = new_fibo % modder
+        new_fibo = (new_fibo + old_fibo) % modder
+        old_fibo = temp_fibo % modder
+
+    reset_variables()
+
+def fibonacci_relative_mod_draw(stepper):
+    global coordinates
+    global angle
+    global counter
+    global step_size
+    angle = 1
+    new_fibo = 1
+    old_fibo = 0
+    temp_fibo = 0
+    for i in range(200):
+        coordinates = plot_line(coordinates,angle, step_size)
+        angle = (angle + new_fibo) % 360
+        temp_fibo = new_fibo
+        new_fibo = (new_fibo + old_fibo)
+        old_fibo = temp_fibo
+
+    reset_variables()
+# fibonacci_relative_mod_draw(360)
+# subplot1.set_ylim([-1, 8])
+# title = 'F-Quiggle  (mod 360)'
+# subplot1.set_title(title, fontsize=30)
+# fibonacci_mod_draw(360)
+# fibonacci_mod_draw_wierd(11*13*5*7)
+# plt.savefig(title +'.png', dpi = 300)
+# plt.savefig(title + '.svg')
+
 def geometric_series_quiggle(r_value):
     global coordinates
     global angle
@@ -317,6 +380,29 @@ def sin_wave_exploration_well_behaved_attempt_90_multiple_plots(height, width, s
                 counter += 1/(k+start_value+j*width)
                 # print(str(angle % 360), str(counter))
     reset_variables()
+
+def quiggle_well_behaved_attempt_90_multiple_plots(height, width, start_value, length_multiplier):
+    global coordinates
+    global angle
+    global counter
+    global step_size
+    counter = 0
+    angle = 0
+    figure, axis = plt.subplots(height, width)
+    for k in range(width):
+        for j in range(height):
+            axis[j, k].axes.get_xaxis().set_ticks([])
+            axis[j, k].axes.get_yaxis().set_ticks([])
+            axis[j, k].set_aspect('equal', adjustable='box')
+            # axis[j, k].set_title("Graph " + str(k+start_value+j*width))
+            for i in range(720+2*(k+start_value+j*width)*length_multiplier):
+                coordinates = plot_line_width(coordinates,angle, step_size, 0.5,axis[j,k])
+                angle += counter
+                counter += (k+start_value+j*width)
+                # print(str(angle % 360), str(counter))
+    reset_variables()
+
+quiggle_well_behaved_attempt_90_multiple_plots(5, 5, 1, 8)
 
 def sin_wave_exploration_well_behaved_attempt_90(stepper, length):
     global coordinates
@@ -606,7 +692,7 @@ def standard_quiggle_draw_overlap_progression_grid(stepper, width, height, linew
     reset_variables()
 
 # standard_quiggle_draw_overlap_progression(1, 4, 1)
-standard_quiggle_draw_overlap_progression_grid(103, 4,2, 1)
+# standard_quiggle_draw_overlap_progression_grid(23, 4,3, 1)
 
 
 # cycloid_exploration_well_behaved_attempt_90(1/12, 360)
