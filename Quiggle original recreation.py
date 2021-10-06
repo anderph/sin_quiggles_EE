@@ -24,7 +24,7 @@ def  plot_line(coords, degrees, length):
      endx = x + length * math.cos(math.radians(degrees))
 
      # colors
-     color = int(( iterations/90+ 3) % 7)
+     color = int(((iterations-1)/360 ) % 7)
      # if counter >= 360*3:
      #     color = 4
      subplot1.plot([x, endx], [y, endy], colorlist[color], linewidth=0.8)
@@ -45,10 +45,10 @@ subplot1 = plt.subplot(111)
 coordinates = (0,0)
 angle = 0
 iterations = 1
-modifier = 13
-counter = 1
+modifier = 70
+counter = 0
 
-time = 720*2
+time = 360*8*2*2
 
 # time = 2
 #
@@ -71,10 +71,11 @@ for i in range(time):
     iterations += 1
 
 
-title = "Pseudo Mono H-Quiggle first middle"
+# title = "Two Features of H-Quiggle, a = 1"
+title = str(modifier)
 plt.title(title, fontsize=20)
 # coordinates = plot_line(coordinates,90, 1)
-# plt.savefig(title+'.svg')
+# plt.savefig(title+'.png', dpi=300)
 
 
 

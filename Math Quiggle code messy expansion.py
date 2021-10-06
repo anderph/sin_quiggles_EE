@@ -391,10 +391,12 @@ def quiggle_well_behaved_attempt_90_multiple_plots(height, width, start_value, l
     figure, axis = plt.subplots(height, width)
     for k in range(width):
         for j in range(height):
+            counter = 0
+            angle = 0
             axis[j, k].axes.get_xaxis().set_ticks([])
             axis[j, k].axes.get_yaxis().set_ticks([])
             axis[j, k].set_aspect('equal', adjustable='box')
-            # axis[j, k].set_title("Graph " + str(k+start_value+j*width))
+            axis[j, k].set_title(str(k+start_value+j*width), fontsize=8)
             for i in range(720+2*(k+start_value+j*width)*length_multiplier):
                 coordinates = plot_line_width(coordinates,angle, step_size, 0.5,axis[j,k])
                 angle += counter
@@ -402,7 +404,8 @@ def quiggle_well_behaved_attempt_90_multiple_plots(height, width, start_value, l
                 # print(str(angle % 360), str(counter))
     reset_variables()
 
-quiggle_well_behaved_attempt_90_multiple_plots(5, 5, 1, 8)
+quiggle_well_behaved_attempt_90_multiple_plots(5, 5, 1, 1)
+plt.savefig('exploration' +'.svg')
 
 def sin_wave_exploration_well_behaved_attempt_90(stepper, length):
     global coordinates
@@ -658,17 +661,23 @@ def standard_quiggle_draw_overlap_progression_grid(stepper, width, height, linew
             axis[h, w].axes.get_xaxis().set_ticks([])
             axis[h, w].axes.get_yaxis().set_ticks([])
             axis[h, w].set_aspect('equal', adjustable='box')
-            axis[h, w].set_title("Graph Feature " + str(h*width + w + 1))
+            axis[h, w].set_title("" + str(30*(h*width + w + 1))+ " steps")
+            # First Feature, a=1,
+    # putting in zero line (first line segment
+    coordinates = (1, 0)
+    listOfSteps.append([(0, 0), (1, 0)])
+    newlistOfSteps.append([(0, 0), (1, 0)])
+    listOfSortedSteps.append(sorted([(0, 0), (1, 0)]))
     for h in range(height):
         for w in range(width):
-            iteration = h*width +w
+            iteration = h * width + w
             while feature <= (iteration + 1):
-                if counter % 360 == 1:
-                    feature += 1
                 oldCoordinates = coordinates
                 coordinates = (coordinates[0] + math.cos(math.radians(angle)), coordinates[1] + math.sin(math.radians(angle)))
                 angle += counter
                 counter += stepper
+                if (counter-1)/stepper % 30 == 1:
+                    feature += 1
                 current_move = [(round(oldCoordinates[0],4), round(oldCoordinates[1],4)), (round(coordinates[0],4),round(coordinates[1],4))]
                 if sorted(current_move) in listOfSortedSteps:
                     if current_move not in listOfSteps:
@@ -691,9 +700,10 @@ def standard_quiggle_draw_overlap_progression_grid(stepper, width, height, linew
             newcolorlist = []
     reset_variables()
 
-# standard_quiggle_draw_overlap_progression(1, 4, 1)
-# standard_quiggle_draw_overlap_progression_grid(23, 4,3, 1)
 
+# standard_quiggle_draw_overlap_progression(1, 4, 1)
+# standard_quiggle_draw_overlap_progression_grid(1, 4,3, .66)
+# plt.savefig('progression of first feature of H-quiggle with step size 1', dpi=400)
 
 # cycloid_exploration_well_behaved_attempt_90(1/12, 360)
 # sin_wave_exploration_well_behaved_attempt_90(1/258, 600)
