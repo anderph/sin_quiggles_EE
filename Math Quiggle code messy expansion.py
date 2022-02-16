@@ -2,8 +2,9 @@ import matplotlib.pyplot as plt
 from scipy import integrate
 import numpy as n
 import math
+# import matplotlib as mpl
 
-
+# mpl.rcParams['figure.dpi'] = 200
 #general variable settings
 
 step_size = 1
@@ -25,7 +26,7 @@ def  plot_line(_coordinates, degrees, _length, subplotName=None):
     endx = x + _length * math.cos(math.radians(degrees))
 
      # plot the points
-    subplotName.plot([x, endx], [y, endy])
+    subplotName.plot([x, endx], [y, endy], 'black')
     return (endx, endy)
 
 def  plot_line_width(_coordinates, degrees, _length, _linewidth, subplotName=None):
@@ -72,10 +73,10 @@ def standard_quiggle_draw(stepper):
     global counter
     global step_size
     for i in range(360*8):
-        coordinates = plot_line(coordinates,angle, step_size)
         angle += counter
         counter += stepper
         # print(str(angle % 360), str(counter))
+        coordinates = plot_line(coordinates,angle, step_size)
     reset_variables()
 # standard_quiggle_draw(1.5)
 def length_exploration_of_quiggles(stepper):
@@ -84,10 +85,10 @@ def length_exploration_of_quiggles(stepper):
     global counter
     global step_size
     for i in range(360*4):
-        coordinates = plot_line(coordinates,angle, step_size)
         angle += counter
         step_size += counter
         counter += stepper
+        coordinates = plot_line(coordinates, angle, step_size)
     reset_variables()
 
 def flip_flopper_quiggle(stepper):
@@ -97,10 +98,10 @@ def flip_flopper_quiggle(stepper):
     global step_size
     flipper = 1
     for i in range(360*4):
-        coordinates = plot_line(coordinates,angle, step_size)
         flipper = -1 * flipper
         angle += counter
         counter += stepper * flipper
+        coordinates = plot_line(coordinates, angle, step_size)
     reset_variables()
 
 def exponential_quiggle_draw(stepper):
@@ -109,10 +110,10 @@ def exponential_quiggle_draw(stepper):
     global counter
     global step_size
     for i in range(360*12):
-        coordinates = plot_line(coordinates,angle, step_size)
         angle += (counter ** 2)
         print(str(angle%360))
         counter += stepper
+        coordinates = plot_line(coordinates, angle, step_size)
     reset_variables()
 # exponential_quiggle_draw(1)
 def fibonacci_mod_draw(modder):
@@ -127,14 +128,17 @@ def fibonacci_mod_draw(modder):
     for i in range(120*2):
         # if old_fibo % 360 == 0: print(i)
         # print(old_fibo)
-        coordinates = plot_line(coordinates,angle, step_size)
         angle += new_fibo
         temp_fibo = new_fibo % modder
         new_fibo = (new_fibo + old_fibo) % modder
         old_fibo = temp_fibo % modder
+        coordinates = plot_line(coordinates, angle, step_size)
 
     reset_variables()
 # fibonacci_mod_draw(360)
+# tempotitle = 'Absolute Fibonacci-Quiggle'
+# plt.title(tempotitle, fontsize=20)
+# plt.savefig(tempotitle+'.png', dpi=200)
 def fibonacci_mod_draw_wierd(modder):
     global coordinates
     global angle
@@ -147,11 +151,11 @@ def fibonacci_mod_draw_wierd(modder):
     for i in range(360*8):
         # if old_fibo % 360 == 0: print(i)
         # print(old_fibo)
-        coordinates = plot_line(coordinates,angle, step_size)
         angle += 360/modder * new_fibo
         temp_fibo = new_fibo % modder
         new_fibo = (new_fibo + old_fibo) % modder
         old_fibo = temp_fibo % modder
+        coordinates = plot_line(coordinates, angle, step_size)
 
     reset_variables()
 
@@ -165,13 +169,18 @@ def fibonacci_relative_mod_draw(stepper):
     old_fibo = 0
     temp_fibo = 0
     for i in range(200):
-        coordinates = plot_line(coordinates,angle, step_size)
         angle = (angle + new_fibo) % 360
         temp_fibo = new_fibo
         new_fibo = (new_fibo + old_fibo)
         old_fibo = temp_fibo
+        coordinates = plot_line(coordinates, angle, step_size)
 
     reset_variables()
+# fibonacci_relative_mod_draw(360)
+# tempotitle = 'Relative Fibonacci-Quiggle'
+# plt.title(tempotitle, fontsize=20)
+# plt.savefig(tempotitle+'.png', dpi=200)
+
 # fibonacci_relative_mod_draw(360)
 # subplot1.set_ylim([-1, 8])
 # title = 'F-Quiggle  (mod 360)'
@@ -188,22 +197,26 @@ def geometric_series_quiggle(r_value):
     global step_size
     term = r_value
     for i in range(360*2):
-        coordinates = plot_line(coordinates,angle % 360, step_size)
         angle = term
-        term = term * r_value
+        term = term * r_value + 7
+        coordinates = plot_line(coordinates,angle % 360, step_size)
         # print(str(angle % 360), str(counter))
     reset_variables()
-# geometric_series_quiggle(8)
+# geometric_series_quiggle(11)
+# tempotitle = 'Ratio-Quiggle 11'
+# plt.title(tempotitle, fontsize=20)
+# plt.savefig(tempotitle+'.png', dpi=200)
+
 def weird_square_root_archimedian_spiral(stepper, length):
     global coordinates
     global angle
     global counter
     global step_size
     for i in range(length):
-        coordinates = plot_line(coordinates,angle, step_size)
         angle = counter ** (1/2)
         counter += stepper
         # print(str(angle % 360), str(counter))
+        coordinates = plot_line(coordinates, angle, step_size)
     reset_variables()
 # weird_square_root_archimedian_spiral(1000, 360)
 def sin_wave_exploration(stepper):
@@ -212,10 +225,10 @@ def sin_wave_exploration(stepper):
     global counter
     global step_size
     for i in range(360*16):
-        coordinates = plot_line(coordinates,angle, step_size)
         angle += math.sin(math.radians(counter/360))
         counter += stepper
         # print(str(angle % 360), str(counter))
+        coordinates = plot_line(coordinates, angle, step_size)
     reset_variables()
 # sin_wave_exploration(24.1) #this gets us very close to a weird, but finite figure 8.
 def random(stepper):
@@ -224,10 +237,10 @@ def random(stepper):
     global counter
     global step_size
     for i in range(360*12):
-        coordinates = plot_line(coordinates,angle, step_size)
         # angle += math.fabs(counter-180)
         counter += stepper
         # print(str(angle % 360), str(counter))
+        coordinates = plot_line(coordinates, angle, step_size)
     reset_variables()
 
 def sin_wave_exploration_but_with_different_sequence(stepper):
@@ -236,10 +249,10 @@ def sin_wave_exploration_but_with_different_sequence(stepper):
     global counter
     global step_size
     for i in range(180):
-        coordinates = plot_line(coordinates,angle, step_size)
         angle = math.sin(math.radians(counter))*180
         counter += stepper
         print(str(angle % 360), str(counter))
+        coordinates = plot_line(coordinates, angle, step_size)
     reset_variables()
 
 def mushroom(stepper):
@@ -248,10 +261,10 @@ def mushroom(stepper):
     global counter
     global step_size
     for i in range(180):
-        coordinates = plot_line(coordinates,angle, step_size)
         angle += math.sin(math.radians(counter))*360
         counter += stepper
         print(str(angle % 360), str(counter))
+        coordinates = plot_line(coordinates, angle, step_size)
     reset_variables()
 # mushroom(2)
 def mushroom_not_really(stepper):
@@ -260,10 +273,10 @@ def mushroom_not_really(stepper):
     global counter
     global step_size
     for i in range(180*4):
-        coordinates = plot_line(coordinates,angle, step_size)
         angle += math.sin(math.radians(counter))*180
         counter += stepper
         print(str(angle % 360), str(counter))
+        coordinates = plot_line(coordinates, angle, step_size)
     reset_variables()
 # mushroom_not_really(1)
 def special_case_of_sin_wave_exploration_but_with_different_sequence(stepper):
@@ -272,15 +285,15 @@ def special_case_of_sin_wave_exploration_but_with_different_sequence(stepper):
     global counter
     global step_size
     for i in range(180):
-        coordinates = plot_line(coordinates,angle, step_size)
         angle = math.sin(math.radians(counter))*360
         counter += stepper
+        coordinates = plot_line(coordinates, angle, step_size)
         print(str(angle % 360), str(counter))
     for i in range(180):
-        coordinates = plot_line(coordinates,angle, step_size)
         angle = -math.sin(math.radians(counter))*360
         counter += stepper
         print(str(angle % 360), str(counter))
+        coordinates = plot_line(coordinates, angle, step_size)
     reset_variables()
 # special_case_of_sin_wave_exploration_but_with_different_sequence(1)
 def circle_creator_but_non_trivial_maybe(stepper, iterations):
@@ -289,9 +302,9 @@ def circle_creator_but_non_trivial_maybe(stepper, iterations):
     global counter
     global step_size
     for i in range(iterations):
-        coordinates = plot_line(coordinates,angle, step_size)
         counter += stepper
         angle = counter
+        coordinates = plot_line(coordinates, angle, step_size)
         print(str(angle % 360), str(counter))
     reset_variables()
 
@@ -301,9 +314,9 @@ def sin_wave_exploration_extended(stepper, division):
     global counter
     global step_size
     for i in range(360*24):
-        coordinates = plot_line(coordinates,angle, step_size)
         angle += 10*math.sin(counter*math.pi/division) ** 2
         counter += stepper
+        coordinates = plot_line(coordinates, angle, step_size)
         # print(str(angle % 360), str(counter))
     reset_variables()
 # sin_wave_exploration_extended(1,10)
@@ -313,9 +326,9 @@ def sin_wave_exploration_extended_critical_point(stepper):
     global counter
     global step_size
     for i in range(360*24):
-        coordinates = plot_line(coordinates,angle, step_size)
         angle += math.sin(counter/math.pi/50.5) ** 2
         counter += stepper
+        coordinates = plot_line(coordinates, angle, step_size)
         # print(str(angle % 360), str(counter))
     reset_variables()
 # sin_wave_exploration_extended_critical_point(1) #this creates almost a straight line
@@ -325,9 +338,9 @@ def sin_wave_exploration_well_behaved_attempt_360(stepper):
     global counter
     global step_size
     for i in range(364*6):
-        coordinates = plot_line(coordinates,angle, step_size)
         angle += 360*math.sin(counter*math.pi) ** 2
         counter += stepper
+        coordinates = plot_line(coordinates, angle, step_size)
         # print(str(angle % 360), str(counter))
     reset_variables()
 
@@ -337,12 +350,15 @@ def sin_wave_exploration_well_behaved_attempt_180(stepper):
     global counter
     global step_size
     for i in range(364*6):
-        coordinates = plot_line(coordinates,angle, step_size)
         angle += 180*math.sin(counter*math.pi) ** 2
         counter += stepper
+        coordinates = plot_line(coordinates, angle, step_size)
         # print(str(angle % 360), str(counter))
     reset_variables()
-
+# sin_wave_exploration_well_behaved_attempt_180(1/19)
+# tempotitle = '180_Sin_Quiggle 1/19'
+# plt.title(tempotitle, fontsize=20)
+# plt.savefig('180_Sin_Quiggle 1 19'+'.png', dpi=200)
 def sin_wave_exploration_well_behaved_attempt_180_multiple_plots(height, width, start_value, length_multiplier):
     global coordinates
     global angle
@@ -356,9 +372,9 @@ def sin_wave_exploration_well_behaved_attempt_180_multiple_plots(height, width, 
             axis[j, k].set_aspect('equal', adjustable='box')
             axis[j, k].set_title("Graph 1/" + str(k+start_value+j*width))
             for i in range((k+start_value+j*width)*length_multiplier):
-                coordinates = plot_line(coordinates,angle, step_size, axis[j,k])
                 angle += 180*math.sin(counter*math.pi) ** 2
                 counter += 1/(k+start_value+j*width)
+                coordinates = plot_line(coordinates, angle, step_size, axis[j, k])
                 # print(str(angle % 360), str(counter))
     reset_variables()
 
@@ -375,9 +391,9 @@ def sin_wave_exploration_well_behaved_attempt_90_multiple_plots(height, width, s
             axis[j, k].set_aspect('equal', adjustable='box')
             axis[j, k].set_title("Graph 1/" + str(k+start_value+j*width))
             for i in range((k+start_value+j*width)*length_multiplier):
-                coordinates = plot_line(coordinates,angle, step_size, axis[j,k])
                 angle += 90*math.sin(counter*math.pi) ** 2
                 counter += 1/(k+start_value+j*width)
+                coordinates = plot_line(coordinates, angle, step_size, axis[j, k])
                 # print(str(angle % 360), str(counter))
     reset_variables()
 
@@ -391,21 +407,18 @@ def quiggle_well_behaved_attempt_90_multiple_plots(height, width, start_value, l
     figure, axis = plt.subplots(height, width)
     for k in range(width):
         for j in range(height):
-            counter = 0
-            angle = 0
             axis[j, k].axes.get_xaxis().set_ticks([])
             axis[j, k].axes.get_yaxis().set_ticks([])
             axis[j, k].set_aspect('equal', adjustable='box')
-            axis[j, k].set_title(str(k+start_value+j*width), fontsize=8)
+            # axis[j, k].set_title("Graph " + str(k+start_value+j*width))
             for i in range(720+2*(k+start_value+j*width)*length_multiplier):
-                coordinates = plot_line_width(coordinates,angle, step_size, 0.5,axis[j,k])
                 angle += counter
                 counter += (k+start_value+j*width)
+                coordinates = plot_line_width(coordinates, angle, step_size, 0.5, axis[j, k])
                 # print(str(angle % 360), str(counter))
     reset_variables()
 
-quiggle_well_behaved_attempt_90_multiple_plots(5, 5, 1, 1)
-plt.savefig('exploration' +'.svg')
+# quiggle_well_behaved_attempt_90_multiple_plots(5, 5, 1, 8)
 
 def sin_wave_exploration_well_behaved_attempt_90(stepper, length):
     global coordinates
@@ -413,9 +426,9 @@ def sin_wave_exploration_well_behaved_attempt_90(stepper, length):
     global counter
     global step_size
     for i in range(length):
-        coordinates = plot_line(coordinates,angle, step_size)
         angle += 2*90*math.sin(counter*math.pi) ** 2
         counter += stepper
+        coordinates = plot_line(coordinates, angle, step_size)
         # print(str(angle % 360), str(counter))
     reset_variables()
 # sin_wave_exploration_well_behaved_attempt_90(1/7,180)
@@ -428,9 +441,9 @@ def sin_wave_exploration_well_behaved_attempt_variable_angular_multiplier(steppe
     global step_size
     subplot1.set_title("Graph 1/" + str(1/stepper))
     for i in range(length):
-        coordinates = plot_line(coordinates,angle, step_size)
         angle += angular_multiplier*math.sin(counter*math.pi) ** 2
         counter += stepper
+        coordinates = plot_line(coordinates, angle, step_size)
         # print(str(angle % 360), str(counter))
     reset_variables()
 
@@ -441,9 +454,9 @@ def sin_wave_exploration_well_behaved_attempt_variable_angular_multiplier_not_sq
     global step_size
     subplot1.set_title("Graph 1/" + str(1/stepper))
     for i in range(length):
-        coordinates = plot_line(coordinates,angle, step_size)
         angle += angular_multiplier*math.fabs((math.sin(counter*math.pi)))
         counter += stepper
+        coordinates = plot_line(coordinates, angle, step_size)
         # print(str(angle % 360), str(counter))
     reset_variables()
 
@@ -462,9 +475,9 @@ def sin_wave_exploration_well_behaved_attempt_90_multiple_plots(height, width, s
             axis[j, k].set_aspect('equal', adjustable='box')
             axis[j, k].set_title("Graph 1/" + str(k+start_value+j*width))
             for i in range((k+start_value+j*width)*length_multiplier):
-                coordinates = plot_line(coordinates,angle, step_size, axis[j,k])
                 angle += 90*math.sin(counter*math.pi) ** 2
                 counter += 1/(k+start_value+j*width)
+                coordinates = plot_line(coordinates, angle, step_size, axis[j, k])
                 # print(str(angle % 360), str(counter))
     reset_variables()
 
@@ -483,9 +496,9 @@ def sin_wave_exploration_well_behaved_attempt_90_multiple_plots_different_files(
         subplotter.set_aspect('equal', adjustable='box')
         subplotter.set_title("Graph 1/" + str(k + start_value))
         for i in range((k + start_value) * length_multiplier):
-            coordinates = plot_line(coordinates, angle, step_size, subplotter)
             angle += 90 * math.sin(counter * math.pi) ** 2
             counter += 1 / (k + start_value)
+            coordinates = plot_line(coordinates, angle, step_size, subplotter)
             # print(str(angle % 360), str(counter))
         plt.savefig("Sin Wave Quiggle, 90 deg, 1 over "+str(k+start_value), dpi=1200)
         reset_variables()
@@ -506,9 +519,9 @@ def sin_wave_exploration_well_behaved_attempt_multiple_files_and_variable_angula
         subplotter.set_aspect('equal', adjustable='box')
         subplotter.set_title("Graph 1/" + str(k + start_value))
         for i in range((k + start_value) * length_multiplier):
-            coordinates = plot_line(coordinates, angle, step_size, subplotter)
             angle += angular_multiplier * math.sin(counter * math.pi) ** 2
             counter += 1 / (k + start_value)
+            coordinates = plot_line(coordinates, angle, step_size, subplotter)
             # print(str(angle % 360), str(counter))
         plt.savefig("Sin Wave Quiggle, " + str(angular_multiplier) + " deg, 1 over "+str(k+start_value), dpi=1200)
         print(str(k+start_value) + " is looped, " + str(angular_multiplier) +" is multiplier" )
@@ -522,12 +535,12 @@ def sin_wave_exploration_integration_360(stepper, length):
     global step_size
     counter = 0
     for i in range(length):
-        coordinates = plot_line(coordinates,angle, step_size)
         sinusoid = lambda x: n.sin(x*n.pi)
         angle += 360*integrate.quad(sinusoid, counter*n.pi, (counter+stepper)*n.pi)[0] % 360
         print(integrate.quad(sinusoid, counter*n.pi, (counter+stepper)*n.pi)[0])
         counter += stepper
         # plot_line(coordinates, -angle, step_size)
+        coordinates = plot_line(coordinates, angle, step_size)
         print(str(angle % 360), str(counter))
     reset_variables()
 # sin_wave_exploration_integration_360(1/7,20)
@@ -538,9 +551,9 @@ def cycloid_exploration_well_behaved_attempt_90(stepper, length):
     global counter
     global step_size
     for i in range(length):
-        coordinates = plot_line(coordinates,angle, step_size)
         angle += 90*(1 - math.cos(counter*math.pi))
         counter += stepper
+        coordinates = plot_line(coordinates, angle, step_size)
         # print(str(angle % 360), str(counter))
     reset_variables()
 
@@ -581,7 +594,7 @@ def standard_quiggle_draw_overlap(stepper, linewidth):
     print('-------------------------')
     print(colorlist)
     print('-------------------------')
-# standard_quiggle_draw_overlap(7, 0.2)
+# standard_quiggle_draw_overlap(1, 0.8)
 # title = "hello"
 # plt.title(title, fontsize=20)
 # # coordinates = plot_line(coordinates,90, 1)
@@ -612,7 +625,7 @@ def standard_quiggle_draw_overlap_progression(stepper, loops, linewidth):
         width = iteration
         height = 0
         while feature <= (iteration + 1):
-            if counter % 360 == 1:
+            if counter % 90 == 1:
                 feature += 1
             oldCoordinates = coordinates
             coordinates = (coordinates[0] + math.cos(math.radians(angle)), coordinates[1] + math.sin(math.radians(angle)))
@@ -642,6 +655,67 @@ def standard_quiggle_draw_overlap_progression(stepper, loops, linewidth):
 
 
 
+
+def standard_quiggle_draw_overlap_progression_macdonald(stepper, loops, linewidth):
+    global coordinates
+    global angle
+    global counter
+    global step_size
+    listOfSteps = []
+    listOfSortedSteps = []
+    colorlist = []
+    newlistOfSteps = []
+    newcolorlist = []
+    oldCoordinates = (0,0)
+    feature = 1
+    step_number = 1
+    height = 1
+    angle = stepper
+    width = loops
+    figure, axis = plt.subplots(height, width)
+    plt.tight_layout()
+    for w in range(width):
+        axis[w].axes.get_xaxis().set_ticks([])
+        axis[w].axes.get_yaxis().set_ticks([])
+        axis[w].set_aspect('equal', adjustable='box')
+        axis[w].set_title("Graph" + str((w + 1)))
+    for iteration in range(loops):
+        width = iteration
+        height = 0
+        while feature <= (iteration + 1):
+            if counter % 90 == 0:
+                feature += 1
+                print(step_number)
+            oldCoordinates = coordinates
+            angle += counter
+            counter += stepper
+            step_number += 1
+            coordinates = (coordinates[0] + math.cos(math.radians(angle)), coordinates[1] + math.sin(math.radians(angle)))
+            current_move = [(round(oldCoordinates[0],5), round(oldCoordinates[1],5)), (round(coordinates[0],5),round(coordinates[1],5))]
+            if sorted(current_move) in listOfSortedSteps:
+                if current_move not in listOfSteps:
+                    colorlist.append(current_move)
+                    newcolorlist.append(current_move)
+            else:
+                listOfSteps.append(current_move)
+                newlistOfSteps.append(current_move)
+            listOfSortedSteps.append(sorted(current_move))
+            # print(str(angle % 360), str(counter))
+        for i in range(len(listOfSteps)):
+            plot_line_color(listOfSteps[i][0], listOfSteps[i][1], 'black', linewidth, subplotName=axis[width])
+        for i in range(len(colorlist)):
+            plot_line_color(colorlist[i][0], colorlist[i][1], 'blue', linewidth, subplotName=axis[width])
+        for i in range(len(newlistOfSteps)):
+            plot_line_color(newlistOfSteps[i][0], newlistOfSteps[i][1], 'lime', linewidth, subplotName=axis[width])
+        for i in range(len(newcolorlist)):
+            plot_line_color(newcolorlist[i][0], newcolorlist[i][1], 'red', linewidth, subplotName=axis[width])
+        # print(newlistOfSteps)
+        # print(newcolorlist)
+        newlistOfSteps = []
+        newcolorlist = []
+    reset_variables()
+# standard_quiggle_draw_overlap_progression_macdonald(1,4,1)
+
 def standard_quiggle_draw_overlap_progression_grid(stepper, width, height, linewidth):
     global coordinates
     global angle
@@ -653,7 +727,8 @@ def standard_quiggle_draw_overlap_progression_grid(stepper, width, height, linew
     newlistOfSteps = []
     newcolorlist = []
     oldCoordinates = (0,0)
-    feature = 0
+    feature = 1
+    step_number = 0
     figure, axis = plt.subplots(height, width)
     plt.tight_layout()
     for h in range(height):
@@ -661,23 +736,20 @@ def standard_quiggle_draw_overlap_progression_grid(stepper, width, height, linew
             axis[h, w].axes.get_xaxis().set_ticks([])
             axis[h, w].axes.get_yaxis().set_ticks([])
             axis[h, w].set_aspect('equal', adjustable='box')
-            axis[h, w].set_title("" + str(30*(h*width + w + 1))+ " steps")
-            # First Feature, a=1,
-    # putting in zero line (first line segment
-    coordinates = (1, 0)
-    listOfSteps.append([(0, 0), (1, 0)])
-    newlistOfSteps.append([(0, 0), (1, 0)])
-    listOfSortedSteps.append(sorted([(0, 0), (1, 0)]))
+            # axis[h, w].set_title("Graph Feature " + str(h*width + w + 1))
+            axis[h, w].set_title(str(30 * (h * width + w + 1)) + " Steps")
     for h in range(height):
         for w in range(width):
-            iteration = h * width + w
+            iteration = h*width +w
             while feature <= (iteration + 1):
                 oldCoordinates = coordinates
-                coordinates = (coordinates[0] + math.cos(math.radians(angle)), coordinates[1] + math.sin(math.radians(angle)))
                 angle += counter
+                coordinates = (coordinates[0] + math.cos(math.radians(angle)), coordinates[1] + math.sin(math.radians(angle)))
                 counter += stepper
-                if (counter-1)/stepper % 30 == 1:
+                step_number += 1
+                if counter % 30 == 1:
                     feature += 1
+                    # print(step_number)
                 current_move = [(round(oldCoordinates[0],4), round(oldCoordinates[1],4)), (round(coordinates[0],4),round(coordinates[1],4))]
                 if sorted(current_move) in listOfSortedSteps:
                     if current_move not in listOfSteps:
@@ -696,14 +768,15 @@ def standard_quiggle_draw_overlap_progression_grid(stepper, width, height, linew
                 plot_line_color(newlistOfSteps[i][0], newlistOfSteps[i][1], 'lime', linewidth, subplotName=axis[h, w])
             for i in range(len(newcolorlist)):
                 plot_line_color(newcolorlist[i][0], newcolorlist[i][1], 'red', linewidth, subplotName=axis[h, w])
+            print(newlistOfSteps)
+            print(newcolorlist)
             newlistOfSteps = []
             newcolorlist = []
     reset_variables()
 
-
-# standard_quiggle_draw_overlap_progression(1, 4, 1)
-# standard_quiggle_draw_overlap_progression_grid(1, 4,3, .66)
-# plt.savefig('progression of first feature of H-quiggle with step size 1', dpi=400)
+# standard_quiggle_draw_overlap_progression_macdonald(7, 8, 1)
+standard_quiggle_draw_overlap_progression_grid(1, 4,3, 1)
+plt.savefig('Big grid thing.png', dpi = 300)
 
 # cycloid_exploration_well_behaved_attempt_90(1/12, 360)
 # sin_wave_exploration_well_behaved_attempt_90(1/258, 600)
