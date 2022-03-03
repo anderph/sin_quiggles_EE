@@ -776,7 +776,7 @@ def standard_quiggle_draw_overlap_progression_grid(stepper, width, height, linew
 
 # standard_quiggle_draw_overlap_progression_macdonald(7, 8, 1)
 standard_quiggle_draw_overlap_progression_grid(1, 4,3, 1)
-plt.savefig('Big grid thing.png', dpi = 300)
+# plt.savefig('Big grid thing.png', dpi = 300)
 
 # cycloid_exploration_well_behaved_attempt_90(1/12, 360)
 # sin_wave_exploration_well_behaved_attempt_90(1/258, 600)

@@ -19,10 +19,10 @@ color = 0
 
 fig = plt.figure()
 subplot1 = plt.subplot(111)
-# subplot1.set_ylim([-.5, 3.5])   # set the bounds to be 10, 10
-# subplot1.set_xlim([-1, 3])
+# subplot1.set_ylim([-2, 2])   # set the bounds to be 10, 10
+# subplot1.set_xlim([-2, 2])
 
-subplot1.set_aspect('equal', adjustable='box')
+# subplot1.set_aspect('equal', adjustable='box')
 
 # subplot1.title("Mono H-Quiggle", fontdict=None, loc='center', pad=None, **kwargs
 
@@ -60,6 +60,19 @@ def plot_line(coords, degrees, length):
     return (endx, endy)
 
 
+anglesave = angle
+coordinatessave = coordinates
+countersave = counter
+iterationssave = iterations
+def resetStuff():
+    global  angle
+    global coordinates
+    global counter
+    global iterations
+    angle = anglesave
+    coordinates = coordinatessave
+    counter = countersave
+    iterations = iterationssave
 
 # x=0
 # y=0
@@ -70,29 +83,52 @@ def plot_line(coords, degrees, length):
 #     counter += modifier
 #     iterations += 1
 #     coordinates = (x,y)
+#
+# for i in range(360):
+#     angle += counter
+#     x, y = coordinates
+#     endy = y + math.sin(math.radians(angle))
+#     endx = x + math.cos(math.radians(angle))
+#     subplot1.plot([x, endx], [y, endy], 'violet', linewidth=1)  # specifies the color
+#     coordinates = (endx, endy)
+#     counter += modifier
+#     iterations += 1
+resetStuff()
+
+x, y = coordinates
+endy = y + math.sin(math.radians(0))
+endx = x + math.cos(math.radians(0))
+subplot1.plot([x, endx], [y, endy], 'blue', linewidth=1)  # specifies the color
+coordinates = (endx, endy)
 
 
-for i in range(time):
-    print('-'+str(counter % 360)+'-')
-    # if counter % 360 == 1 :
-        # print(iterations)
-        # print("---" + str(i) + "---x:" + str(coordinates[0])+ '---y:' + str(coordinates[1]))
-    angle += counter
-    coordinates = plot_line(coordinates, angle, 1)
-    counter += modifier
-    iterations += 1
-    # print("------" + str(counter % 360) + "-")
-# subplot1.plot([0, -1], [0, 0], 'blue', linewidth=.1)
-for i in range(5):
+for i in range(359):
     angle += counter
     x, y = coordinates
     endy = y + math.sin(math.radians(angle))
     endx = x + math.cos(math.radians(angle))
-    subplot1.plot([x, endx], [y, endy], 'blue', linewidth=.1)  # specifies the color
+    subplot1.plot([x, endx], [y, endy], 'blue', linewidth=1)  # specifies the color
     coordinates = (endx, endy)
     counter += modifier
     iterations += 1
-
+# for i in range(2):
+#     angle += counter
+#     x, y = coordinates
+#     endy = y + math.sin(math.radians(angle))
+#     endx = x + math.cos(math.radians(angle))
+#     subplot1.plot([x, endx], [y, endy], 'black', linewidth=10)  # specifies the color
+#     coordinates = (endx, endy)
+#     counter += modifier
+#     iterations += 1
+# for i in range(2):
+#     angle += counter
+#     x, y = coordinates
+#     endy = y + math.sin(math.radians(angle))
+#     endx = x + math.cos(math.radians(angle))
+#     subplot1.plot([x, endx], [y, endy], 'blue', linewidth=1)  # specifies the color
+#     coordinates = (endx, endy)
+#     counter += modifier
+#     iterations += 1
 #
 # x,y = (0,0)
 # endx,endy=(1,0)
@@ -115,12 +151,13 @@ for i in range(5):
 
 
 
-title = "H-Quiggle Step-size: 3 (t₁=1)"
-title = 'tester3'
+title = "H-Quiggle 181, (Hall definition)"
+# title = 'H-quiggle'
 plt.title(title, fontsize=20)
 # coordinates = plot_line(coordinates,90, 1)
-# plt.savefig(title+'.png',dpi=200)
-plt.savefig(title+'.svg')
+title = 'H-quiggle pseudo mono hall full'
+# plt.savefig(title+'.png',dpi=300)
+# plt.savefig(title+'.svg')
 
 
 # Show the plot
