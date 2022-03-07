@@ -30,10 +30,10 @@ subplot1.set_aspect('equal', adjustable='box')
 coordinates = (0,0)
 angle = 0
 iterations = 0
-modifier = 181
+modifier = 16
 counter = 1
 
-time = 359
+time = 360*4
 
 
 def plot_line(coords, degrees, length):
@@ -56,7 +56,7 @@ def plot_line(coords, degrees, length):
     # subplot1.plot([x, endx], [y, endy], colorlist[color], linewidth=1)
     # no colors:
     # subplot1.plot([x, endx], [y, endy], linewidth=0.4)
-    subplot1.plot([x, endx], [y, endy], 'black', linewidth=.1) #specifies the color
+    subplot1.plot([x, endx], [y, endy], 'black', linewidth=1) #specifies the color
     return (endx, endy)
 
 
@@ -83,15 +83,19 @@ for i in range(time):
     iterations += 1
     # print("------" + str(counter % 360) + "-")
 # subplot1.plot([0, -1], [0, 0], 'blue', linewidth=.1)
-for i in range(5):
-    angle += counter
-    x, y = coordinates
-    endy = y + math.sin(math.radians(angle))
-    endx = x + math.cos(math.radians(angle))
-    subplot1.plot([x, endx], [y, endy], 'blue', linewidth=.1)  # specifies the color
-    coordinates = (endx, endy)
-    counter += modifier
-    iterations += 1
+
+
+
+
+# for i in range(5):
+#     angle += counter
+#     x, y = coordinates
+#     endy = y + math.sin(math.radians(angle))
+#     endx = x + math.cos(math.radians(angle))
+#     subplot1.plot([x, endx], [y, endy], 'blue', linewidth=.1)  # specifies the color
+#     coordinates = (endx, endy)
+#     counter += modifier
+#     iterations += 1
 
 #
 # x,y = (0,0)
@@ -115,12 +119,13 @@ for i in range(5):
 
 
 
-title = "H-Quiggle Step-size: 3 (t₁=1)"
-title = 'tester3'
+title = "H-Quiggle Step-size: 16"
+# title = 'tester3'
 plt.title(title, fontsize=20)
+title = 'filler 6'
 # coordinates = plot_line(coordinates,90, 1)
-# plt.savefig(title+'.png',dpi=200)
-plt.savefig(title+'.svg')
+plt.savefig(title+'.png',dpi=200)
+# plt.savefig(title+'.svg')
 
 
 # Show the plot

@@ -115,7 +115,7 @@ def exponential_quiggle_draw(stepper):
         counter += stepper
         coordinates = plot_line(coordinates, angle, step_size)
     reset_variables()
-# exponential_quiggle_draw(1)
+# exponential_quiggle_draw(2)
 def fibonacci_mod_draw(modder):
     global coordinates
     global angle
@@ -198,13 +198,14 @@ def geometric_series_quiggle(r_value):
     term = r_value
     for i in range(360*2):
         angle = term
-        term = term * r_value + 7
+        term = term * r_value
         coordinates = plot_line(coordinates,angle % 360, step_size)
         # print(str(angle % 360), str(counter))
     reset_variables()
-# geometric_series_quiggle(11)
+geometric_series_quiggle(23)
 # tempotitle = 'Ratio-Quiggle 11'
 # plt.title(tempotitle, fontsize=20)
+# tempotitle += ' real'
 # plt.savefig(tempotitle+'.png', dpi=200)
 
 def weird_square_root_archimedian_spiral(stepper, length):
@@ -775,7 +776,7 @@ def standard_quiggle_draw_overlap_progression_grid(stepper, width, height, linew
     reset_variables()
 
 # standard_quiggle_draw_overlap_progression_macdonald(7, 8, 1)
-standard_quiggle_draw_overlap_progression_grid(1, 4,3, 1)
+# standard_quiggle_draw_overlap_progression_grid(1, 4,3, 1)
 # plt.savefig('Big grid thing.png', dpi = 300)
 
 # cycloid_exploration_well_behaved_attempt_90(1/12, 360)
